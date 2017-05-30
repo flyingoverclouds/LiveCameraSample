@@ -408,9 +408,9 @@ namespace LiveCameraSample
 
 
             // Create API clients. 
-            _faceClient = new FaceServiceClient(Properties.Settings.Default.FaceAPIKey);
-            _emotionClient = new EmotionServiceClient(Properties.Settings.Default.EmotionAPIKey);
-            _visionClient = new VisionServiceClient(Properties.Settings.Default.VisionAPIKey);
+            _faceClient = new FaceServiceClient(Properties.Settings.Default.FaceAPIKey, Properties.Settings.Default.FaceAPIEndpoint);
+            _emotionClient = new EmotionServiceClient(Properties.Settings.Default.EmotionAPIKey, Properties.Settings.Default.EmotionAPIEndpoint);
+            _visionClient = new VisionServiceClient(Properties.Settings.Default.VisionAPIKey, Properties.Settings.Default.VisionAPIEndpoint);
 
             // How often to analyze. 
             _grabber.TriggerAnalysisOnInterval(Properties.Settings.Default.AnalysisInterval);
