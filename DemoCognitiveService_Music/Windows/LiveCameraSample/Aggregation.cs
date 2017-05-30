@@ -43,7 +43,7 @@ namespace LiveCameraSample
 {
     internal class Aggregation
     {
-        public static Tuple<string, float> GetDominantEmotion(Scores scores)
+        public static Tuple<string, float> GetDominantEmotion(Microsoft.ProjectOxford.Common.Contract.EmotionScores scores)
         {
             float maxScore = 0;
             string dominant = "";
@@ -58,7 +58,7 @@ namespace LiveCameraSample
             return new Tuple<string, float>(dominant, maxScore);
         }
 
-        public static string SummarizeEmotion(Scores scores)
+        public static string SummarizeEmotion(Microsoft.ProjectOxford.Common.Contract.EmotionScores scores)
         {
             var bestEmotion = Aggregation.GetDominantEmotion(scores);
             // return string.Format("{0}: {1:N1}", bestEmotion.Item1, bestEmotion.Item2);

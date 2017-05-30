@@ -97,7 +97,7 @@ namespace LiveCameraSample
                         42 * annotationScale, Brushes.Black);
                     // Instead of calling DrawText (which can only draw the text in a solid colour), we
                     // convert to geometry and use DrawGeometry, which allows us to add an outline. 
-                    var geom = ft.BuildGeometry(new Point(10 * annotationScale, y));
+                    var geom = ft.BuildGeometry(new System.Windows.Point(10 * annotationScale, y));
                     drawingContext.DrawGeometry(s_lineBrush, new Pen(Brushes.Black, 2 * annotationScale), geom);
                     // Move line down
                     y += 42 * annotationScale;
@@ -122,7 +122,6 @@ namespace LiveCameraSample
                 if (oldValue != humor)
                 {
                     player.Stop();
-                    // TODO : play le clown
                     //player.SoundLocation = @"..\..\Music\WhenDovesCry.wav";
                     oldValue = humor;
                     //player.Load();
@@ -178,10 +177,10 @@ namespace LiveCameraSample
 
         }
 
-        public static BitmapSource DrawFaces(BitmapSource baseImage, Microsoft.ProjectOxford.Face.Contract.Face[] faces, Scores[] emotionScores, string[] celebName,AppMode appMode)
+        public static BitmapSource DrawFaces(BitmapSource baseImage, Microsoft.ProjectOxford.Face.Contract.Face[] faces, Microsoft.ProjectOxford.Common.Contract.EmotionScores[] emotionScores, string[] celebName, AppMode appMode)
         {
             System.Media.SoundPlayer player = new System.Media.SoundPlayer();
-            
+
 
             if (faces == null)
             {
@@ -190,62 +189,62 @@ namespace LiveCameraSample
 
             Action<DrawingContext, double> drawAction = (drawingContext, annotationScale) =>
             {
-           
-                string oldtext = "";
 
-                for (int i = 0; i < faces.Length; i++)
+            string oldtext = "";
+
+            for (int i = 0; i < faces.Length; i++)
+            {
+                var face = faces[i];
+                if (face.FaceRectangle == null) { continue; }
+
+                Rect faceRect = new Rect(
+                    face.FaceRectangle.Left, face.FaceRectangle.Top,
+                    face.FaceRectangle.Width, face.FaceRectangle.Height);
+                string text = "";
+
+                if (face.FaceAttributes != null)
                 {
-                    var face = faces[i];
-                    if (face.FaceRectangle == null) { continue; }
+                    text += Aggregation.SummarizeFaceAttributes(face.FaceAttributes);
+                }
 
-                    Rect faceRect = new Rect(
-                        face.FaceRectangle.Left, face.FaceRectangle.Top,
-                        face.FaceRectangle.Width, face.FaceRectangle.Height);
-                    string text = "";
+                if (emotionScores?[i] != null)
+                {
 
-                    if (face.FaceAttributes != null)
+                    text += Aggregation.SummarizeEmotion(emotionScores[i]);
+                    if (appMode == AppMode.EmotionsAdvanced)
                     {
-                        text += Aggregation.SummarizeFaceAttributes(face.FaceAttributes);
+                        FranmerMusic(text);
                     }
+                    else FranmerMusic("Stop");
+                }
 
-                    if (emotionScores?[i] != null )
-                    {
-                        
-                        text += Aggregation.SummarizeEmotion(emotionScores[i]);
-                        if (appMode == AppMode.EmotionsAdvanced)
-                        {
-                            FranmerMusic(text);
-                        }
-                        else FranmerMusic("Stop");
-                    }
+                if (celebName?[i] != null)
+                {
+                    text += celebName[i];
+                }
 
-                    if (celebName?[i] != null)
-                    {
-                        text += celebName[i];
-                    }
+                faceRect.Inflate(6 * annotationScale, 6 * annotationScale);
 
-                    faceRect.Inflate(6 * annotationScale, 6 * annotationScale);
+                double lineThickness = 4 * annotationScale;
 
-                    double lineThickness = 4 * annotationScale;
+                drawingContext.DrawRectangle(
+                    Brushes.Transparent,
+                    new Pen(s_lineBrush, lineThickness),
+                    faceRect);
 
-                    drawingContext.DrawRectangle(
-                        Brushes.Transparent,
-                        new Pen(s_lineBrush, lineThickness),
-                        faceRect);
+                if (text != "")
+                {
+                    FormattedText ft = new FormattedText(text,
+                        CultureInfo.CurrentCulture, FlowDirection.LeftToRight, s_typeface,
+                        16 * annotationScale, Brushes.Black);
 
-                    if (text != "")
-                    {
-                        FormattedText ft = new FormattedText(text,
-                            CultureInfo.CurrentCulture, FlowDirection.LeftToRight, s_typeface,
-                            16 * annotationScale, Brushes.Black);
+                    var pad = 3 * annotationScale;
 
-                        var pad = 3 * annotationScale;
-
-                        var ypad = pad;
-                        var xpad = pad + 4 * annotationScale;
-                        var origin = new Point(
-                            faceRect.Left + xpad - lineThickness / 2,
-                            faceRect.Top - ft.Height - ypad + lineThickness / 2);
+                    var ypad = pad;
+                    var xpad = pad + 4 * annotationScale;
+                        var origin = new System.Windows.Point(
+                                Convert.ToInt32(faceRect.Left + xpad - lineThickness / 2),
+                                Convert.ToInt32(faceRect.Top - ft.Height - ypad + lineThickness / 2));
                         var rect = ft.BuildHighlightGeometry(origin).GetRenderBounds(null);
                         rect.Inflate(xpad, ypad);
 

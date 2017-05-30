@@ -256,6 +256,8 @@ namespace LiveCameraSample
                 // Extract emotion scores from results. 
                 EmotionScores = emotions.Select(e => e.Scores).ToArray()
             };
+
+            
         }
 
         /// <summary> Function which submits a frame to the Computer Vision API for tagging. </summary>
