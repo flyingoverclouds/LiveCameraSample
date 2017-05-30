@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveCameraSample", "LiveCameraSample\LiveCameraSample.csproj", "{5B40977E-E8FA-41BC-8F0A-6D6FDE237571}"
 EndProject
@@ -30,20 +30,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 4
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://niclerc.visualstudio.com/
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = BasicConsoleSample\\BasicConsoleSample.csproj
-		SccProjectName1 = BasicConsoleSample
-		SccLocalPath1 = BasicConsoleSample
-		SccProjectUniqueName2 = LiveCameraSample\\LiveCameraSample.csproj
-		SccProjectName2 = LiveCameraSample
-		SccLocalPath2 = LiveCameraSample
-		SccProjectUniqueName3 = VideoFrameAnalyzer\\VideoFrameAnalyzer.csproj
-		SccProjectName3 = VideoFrameAnalyzer
-		SccLocalPath3 = VideoFrameAnalyzer
 	EndGlobalSection
 EndGlobal
